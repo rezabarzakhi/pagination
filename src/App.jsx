@@ -16,23 +16,26 @@ function App() {
       .then((res) => res.json())
       .then((datas) => {
         setTodos(datas);
-        let endIndex = pageSize * currentPage
-        let startIndex = endIndex - pageSize
-        let allShownTodos = datas.slice(startIndex,endIndex)
-        setPageinatedTodos(allShownTodos)
+        let endIndex = pageSize * currentPage;
+        let startIndex = endIndex - pageSize;
+        let allShownTodos = datas.slice(startIndex, endIndex);
+        setPageinatedTodos(allShownTodos);
       });
   }, []);
 
-  useEffect(()=>{
-       let endIndex = pageSize * currentPage;
-       let startIndex = endIndex - pageSize;
-       let allShownTodos = todos.slice(startIndex, endIndex);
-       setPageinatedTodos(allShownTodos);
-  } , [currentPage])
+  // this useEffect solve setState Async for currentPage //
+
+  useEffect(() => {
+    let endIndex = pageSize * currentPage;
+    let startIndex = endIndex - pageSize;
+    let allShownTodos = todos.slice(startIndex, endIndex);
+    setPageinatedTodos(allShownTodos);
+  }, [currentPage]);
+
   const changePageitante = (newPage) => {
     setCurrentPage(newPage);
   };
-
+  // Creating page numbers based on the length of the todos array and pageSize
   const pagesCount = Math.ceil(todos.length / pageSize);
   pagesNumbers = Array.from(Array(pagesCount).keys());
   return (
